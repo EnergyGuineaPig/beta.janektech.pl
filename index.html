@@ -106,39 +106,38 @@
   </div>
 
   <script>
-    function generateRandom10() {
-      return Math.floor(1000000000 + Math.random() * 9000000000);
+  function generateRandom10() {
+    return Math.floor(1000000000 + Math.random() * 9000000000);
+  }
+
+  function joinText() {
+    const username = document.getElementById("first").value.trim();
+    if (!username) {
+      alert("Enter a username first!");
+      return;
     }
 
-    document.getElementById("generate").addEventListener("click", function () {
-      const username = document.getElementById("first").value.trim();
+    const randomNumber = generateRandom10();
+    const key = username + "@" + randomNumber;
 
-      if (!username) {
-        alert("Enter a username first!");
-        return;
-      }
+    document.getElementById("result").innerText = key;
+    document.getElementById("id").innerText = randomNumber;
+  }
 
-      const randomNumber = generateRandom10();
-      const key = username + "@" + randomNumber;
+  // Optional: copy key to clipboard
+  function copyKey() {
+    const key = document.getElementById("result").innerText;
+    if (!key || key === "—") return;
+    navigator.clipboard.writeText(key).then(() => alert("Key copied!"));
+  }
 
-      document.getElementById("result").textContent = key;
-      document.getElementById("id").textContent = randomNumber;
-
-      const fileContent =
-`Username: ${username}
-Key: ${key}
-ID: ${randomNumber}`;
-
-      const blob = new Blob([fileContent], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "code.txt";
-      a.click();
-
-      URL.revokeObjectURL(url);
-    });
-  </script>
+  // Optional: copy ID to clipboard
+  function copyId() {
+    const id = document.getElementById("id").innerText;
+    if (!id || id === "—") return;
+    navigator.clipboard.writeText(id).then(() => alert("ID copied!"));
+  }
+</script>
 </body>
 </html>
+
